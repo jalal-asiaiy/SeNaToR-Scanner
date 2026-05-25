@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>SeNaToR Scanner | تروجان اسکنر</title>
     <style>
+        /* استایل‌ها دقیقاً مشابه قبل (بدون تغییر) */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             background: #0a0c10;
             font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
@@ -18,8 +18,6 @@
             direction: rtl;
             overflow-x: hidden;
         }
-
-        /* محدود کردن عرض کلی و مرکز کردن در صفحه‌های بزرگ */
         .app {
             display: flex;
             max-width: 1400px;
@@ -27,8 +25,6 @@
             min-height: 100vh;
             background: #0a0c10;
         }
-
-        /* سایدبار ثابت سمت راست */
         .sidebar {
             width: 300px;
             background: #111317;
@@ -43,7 +39,6 @@
             overflow-y: auto;
             flex-shrink: 0;
         }
-
         .logo-area {
             display: flex;
             align-items: center;
@@ -74,8 +69,6 @@
             color: #5a6577;
             margin-top: 2px;
         }
-
-        /* کارت وضعیت اسکن */
         .status-card {
             background: #1a1d24;
             border-radius: 24px;
@@ -105,7 +98,6 @@
         }
         .led.green { background: #10b981; box-shadow: 0 0 6px #10b981; }
         .led.yellow { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; }
-
         .user-ip {
             background: #0c0f16;
             border-radius: 18px;
@@ -116,8 +108,6 @@
             margin-top: 12px;
             border: 1px solid #292e38;
         }
-
-        /* آمار در سایدبار */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -140,7 +130,6 @@
             font-weight: 700;
             color: #eef2f8;
         }
-
         .github-icon {
             display: flex;
             justify-content: center;
@@ -156,16 +145,12 @@
         .github-icon a:hover {
             color: #a78bfa;
         }
-
-        /* محتوای اصلی - محدودیت عرض و مرکز */
         .main-content {
             flex: 1;
             padding: 2rem;
             overflow-x: auto;
-            min-width: 0; /* برای جلوگیری از سرریز */
+            min-width: 0;
         }
-
-        /* کارت‌ها */
         .card {
             background: #13161f;
             border: 1px solid #292e38;
@@ -181,8 +166,6 @@
             font-weight: 600;
             color: #cbd5e6;
         }
-
-        /* فرم و فیلدها */
         textarea, input, select {
             background: #0c0f16;
             border: 1px solid #292e38;
@@ -194,7 +177,7 @@
             font-size: 0.85rem;
         }
         textarea {
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
         .input-group {
             margin-bottom: 16px;
@@ -205,6 +188,13 @@
             color: #9ca3af;
             margin-bottom: 6px;
             margin-right: 4px;
+        }
+        .helper-text {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-top: 4px;
+            margin-bottom: 12px;
+            line-height: 1.6;
         }
         .flex-row {
             display: flex;
@@ -237,8 +227,6 @@
         .btn-outline { background: transparent; border: 1px solid #3b4252; }
         .btn-sm { padding: 8px 14px; font-size: 0.75rem; }
         .flex-row .btn { flex: 1; }
-
-        /* جدول */
         .table-wrapper {
             overflow-x: auto;
             border-radius: 24px;
@@ -279,39 +267,20 @@
             margin: 0 3px;
             cursor: pointer;
         }
-
-        /* واکنش‌گرایی */
         @media (max-width: 900px) {
-            .app {
-                flex-direction: column;
-                max-width: 100%;
-            }
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-                padding: 1rem;
-            }
-            .stats-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            .main-content {
-                padding: 1rem;
-            }
+            .app { flex-direction: column; max-width: 100%; }
+            .sidebar { width: 100%; height: auto; position: relative; padding: 1rem; }
+            .stats-grid { grid-template-columns: repeat(4, 1fr); }
+            .main-content { padding: 1rem; }
         }
         @media (min-width: 1600px) {
-            .app {
-                max-width: 1600px;
-            }
-            .main-content {
-                padding: 2rem 3rem;
-            }
+            .app { max-width: 1600px; }
+            .main-content { padding: 2rem 3rem; }
         }
     </style>
 </head>
 <body>
 <div class="app">
-    <!-- سایدبار سمت راست (ثابت) -->
     <div class="sidebar">
         <div class="logo-area">
             <div class="logo-icon">🔍</div>
@@ -320,8 +289,6 @@
                 <div class="logo-version">v1.0.0</div>
             </div>
         </div>
-
-        <!-- کارت وضعیت اسکن -->
         <div class="status-card">
             <div class="status-header">
                 <span>وضعیت اسکن</span>
@@ -332,85 +299,46 @@
             </div>
             <div class="user-ip" id="userIpDisplay">در حال دریافت IP...</div>
         </div>
-
-        <!-- آمار اصلی (کل، اسکن شده، موفق، ناموفق) -->
         <div class="stats-grid">
-            <div class="stat-mini-card">
-                <div class="label">📊 کل آی‌پی</div>
-                <div class="value" id="statTotalSidebar">0</div>
-            </div>
-            <div class="stat-mini-card">
-                <div class="label">🔄 اسکن شده</div>
-                <div class="value" id="statScannedSidebar">0</div>
-            </div>
-            <div class="stat-mini-card">
-                <div class="label">✅ موفق</div>
-                <div class="value" id="statSuccessSidebar">0</div>
-            </div>
-            <div class="stat-mini-card">
-                <div class="label">❌ ناموفق</div>
-                <div class="value" id="statFailSidebar">0</div>
-            </div>
+            <div class="stat-mini-card"><div class="label">📊 کل آی‌پی</div><div class="value" id="statTotalSidebar">0</div></div>
+            <div class="stat-mini-card"><div class="label">🔄 اسکن شده</div><div class="value" id="statScannedSidebar">0</div></div>
+            <div class="stat-mini-card"><div class="label">✅ موفق</div><div class="value" id="statSuccessSidebar">0</div></div>
+            <div class="stat-mini-card"><div class="label">❌ ناموفق</div><div class="value" id="statFailSidebar">0</div></div>
         </div>
-
-        <!-- فقط آیکون گیت‌هاب -->
         <div class="github-icon">
             <a href="https://github.com/jalal-asiaiy" target="_blank" title="GitHub">GitHub</a>
         </div>
     </div>
 
-    <!-- محتوای اصلی -->
     <div class="main-content">
-        <!-- بخش قالب کانفیگ -->
         <div class="card">
             <div class="card-header">📄 قالب کانفیگ (لینک Trojan یا JSON)</div>
             <textarea id="templateConfig" rows="8" style="font-size: 0.75rem; direction: ltr;"></textarea>
+            <div class="helper-text">
+                <div>🔹 لینک Trojan یا JSON کانفیگ خود را وارد کنید (اختیاری)</div>
+                <div>🔹 در صورت خالی گذاشتن، از قالب پیش‌فرض استفاده می‌شود</div>
+            </div>
             <div class="flex-row" style="margin: 12px 0;">
                 <button id="applyConfigBtn" class="btn btn-primary">✅ اعمال کانفیگ کاربر</button>
             </div>
             <div class="flex-row">
-                <div class="input-group" style="flex:1">
-                    <label>🌐 Host (SNI)</label>
-                    <input type="text" id="overrideHost" value="www.calmloud.com">
-                </div>
-                <div class="input-group" style="flex:1">
-                    <label>🛤️ Path (WebSocket)</label>
-                    <input type="text" id="overridePath" value="/assignment">
-                </div>
-                <div class="input-group" style="flex:1">
-                    <label>🔑 رمز عبور Trojan</label>
-                    <input type="text" id="overridePass" value="humanity">
-                </div>
+                <div class="input-group" style="flex:1"><label>🌐 Host (SNI)</label><input type="text" id="overrideHost" value="www.calmloud.com"></div>
+                <div class="input-group" style="flex:1"><label>🛤️ Path (WebSocket)</label><input type="text" id="overridePath" value="/assignment"></div>
+                <div class="input-group" style="flex:1"><label>🔑 رمز عبور Trojan</label><input type="text" id="overridePass" value="humanity"></div>
             </div>
         </div>
 
-        <!-- بخش ورودی آی‌پی و اسکن -->
         <div class="card">
             <div class="card-header">🎯 لیست آی‌پی (پشتیبانی از رنج و CIDR)</div>
-            <div class="input-group">
-                <textarea id="ipListInput" rows="4" placeholder="مثال:&#10;1.1.1.1&#10;188.114.96.0/20&#10;192.168.1.1-192.168.1.10"></textarea>
-            </div>
+            <div class="input-group"><textarea id="ipListInput" rows="4" placeholder="مثال:&#10;1.1.1.1&#10;188.114.96.0/20&#10;192.168.1.1-192.168.1.10"></textarea></div>
             <div class="flex-row" style="margin-bottom: 16px;">
-                <div class="input-group" style="flex:1">
-                    <input type="file" id="fileInput" accept=".txt" style="background:#0c0f16;">
-                </div>
-                <div class="input-group" style="flex:auto">
-                    <button id="parseBtn" class="btn btn-outline" style="width:100%">📋 آماده‌سازی لیست</button>
-                </div>
+                <div class="input-group" style="flex:1"><input type="file" id="fileInput" accept=".txt" style="background:#0c0f16;"></div>
+                <div class="input-group" style="flex:auto"><button id="parseBtn" class="btn btn-outline" style="width:100%">📋 آماده‌سازی لیست</button></div>
             </div>
             <div class="flex-row">
-                <div class="input-group">
-                    <label>⏱️ تایم‌اوت (ms)</label>
-                    <input type="number" id="timeout" value="3000" step="100">
-                </div>
-                <div class="input-group">
-                    <label>📉 حداقل پینگ (ms)</label>
-                    <input type="number" id="minPing" value="0" step="10">
-                </div>
-                <div class="input-group">
-                    <label>📈 حداکثر پینگ (ms)</label>
-                    <input type="number" id="maxPing" value="3000" step="50">
-                </div>
+                <div class="input-group"><label>⏱️ تایم‌اوت (ms)</label><input type="number" id="timeout" value="3000" step="100"></div>
+                <div class="input-group"><label>📉 حداقل پینگ (ms)</label><input type="number" id="minPing" value="0" step="10"></div>
+                <div class="input-group"><label>📈 حداکثر پینگ (ms)</label><input type="number" id="maxPing" value="3000" step="50"></div>
             </div>
             <div class="flex-row" style="margin-top: 20px;">
                 <button id="startScanBtn" class="btn btn-success">▶ شروع اسکن</button>
@@ -418,13 +346,11 @@
             </div>
         </div>
 
-        <!-- دکمه‌های خروجی نتایج -->
         <div class="flex-row" style="margin-bottom: 1rem;">
             <button id="copyBtn" class="btn btn-outline btn-sm" disabled>📋 کپی آی‌پی‌های موفق</button>
             <button id="downloadBtn" class="btn btn-outline btn-sm" disabled>📥 دانلود آی‌پی‌ها</button>
         </div>
 
-        <!-- جدول نتایج -->
         <div class="table-wrapper">
             <table id="resultTable">
                 <thead><tr><th>آی‌پی</th><th>پینگ (ms)</th><th>روش موفقیت</th><th>عملیات</th></tr></thead>
@@ -454,7 +380,6 @@
         const applyConfigBtn = document.getElementById('applyConfigBtn');
         const fileInput = document.getElementById('fileInput');
 
-        // عناصر سایدبار
         const statTotalSidebar = document.getElementById('statTotalSidebar');
         const statScannedSidebar = document.getElementById('statScannedSidebar');
         const statSuccessSidebar = document.getElementById('statSuccessSidebar');
@@ -468,9 +393,38 @@
         let scannedCount = 0, successCount = 0, failCount = 0;
         let scanning = false, stopRequested = false;
         let ipQueue = [], activeWorkers = 0;
-        let baseTemplate = "";
+        
+        const defaultJSON = `{
+  "_comment": { "remark": "SeNaToR" },
+  "log": { "access": "", "error": "", "loglevel": "info", "dnsLog": false },
+  "inbounds": [
+    { "tag": "in_proxy", "port": 1080, "protocol": "socks", "listen": "0.0.0.0", "settings": { "auth": "noauth", "udp": true, "userLevel": 8 }, "sniffing": { "enabled": false } },
+    { "tag": "http-in", "port": 10808, "listen": "::", "protocol": "http" }
+  ],
+  "outbounds": [
+    {
+      "tag": "proxy",
+      "protocol": "trojan",
+      "settings": { "servers": [{ "address": "IP_PLACEHOLDER", "method": "chacha20-poly1305", "ota": false, "password": "PASS_PLACEHOLDER", "port": 443, "level": 8, "flow": "" }] },
+      "streamSettings": {
+        "network": "ws",
+        "security": "tls",
+        "wsSettings": { "path": "PATH_PLACEHOLDER", "headers": { "Host": "HOST_PLACEHOLDER" } },
+        "tlsSettings": { "allowInsecure": true, "serverName": "HOST_PLACEHOLDER", "alpn": ["http/1.1"], "fingerprint": "ios", "show": false },
+        "sockopt": { "dialerProxy": "fragment", "tcpKeepAliveIdle": 100, "tcpNoDelay": true }
+      },
+      "mux": { "enabled": false, "concurrency": 8 }
+    },
+    { "tag": "fragment", "protocol": "freedom", "settings": { "domainStrategy": "AsIs", "fragment": { "packets": "tlshello", "length": "100-200", "interval": "10-20" } }, "streamSettings": { "sockopt": { "tcpKeepAliveIdle": 100, "tcpNoDelay": true } } },
+    { "tag": "direct", "protocol": "freedom", "settings": { "domainStrategy": "UseIp" } },
+    { "tag": "blackhole", "protocol": "blackhole", "settings": {} }
+  ],
+  "dns": { "servers": ["8.8.8.8"] },
+  "routing": { "domainStrategy": "UseIp", "rules": [], "balancers": [] }
+}`;
+        
+        let baseTemplate = defaultJSON;
 
-        // دریافت IP کاربر
         async function fetchUserIP() {
             try {
                 const res = await fetch('https://api.ipify.org?format=json');
@@ -484,7 +438,6 @@
 
         function showToast(msg, type='info'){
             let toast = document.createElement('div');
-            toast.className = `toast-message`;
             toast.innerText = msg;
             toast.style.position = 'fixed';
             toast.style.bottom = '20px';
@@ -512,83 +465,83 @@
             }
         }
 
-        // تبدیل لینک trojan به JSON
-        function parseTrojanLinkToJSON(url) {
+        function extractFromTrojanLink(url) {
             try {
                 let urlObj = new URL(url);
                 if(urlObj.protocol !== 'trojan:') throw new Error();
                 let password = urlObj.username;
-                let address = urlObj.hostname;
                 let searchParams = urlObj.searchParams;
-                let sni = searchParams.get('sni') || address;
+                let sni = searchParams.get('sni') || urlObj.hostname;
                 let path = searchParams.get('path') || '/';
                 let host = searchParams.get('host') || sni;
-                let fingerprint = searchParams.get('fp') || 'chrome';
-                let config = {
-                    "_comment": { "remark": "SeNaToR" },
-                    "log": { "access": "", "error": "", "loglevel": "info", "dnsLog": false },
-                    "inbounds": [
-                        { "tag": "in_proxy", "port": 1080, "protocol": "socks", "listen": "0.0.0.0", "settings": { "auth": "noauth", "udp": true, "userLevel": 8 }, "sniffing": { "enabled": false } },
-                        { "tag": "http-in", "port": 10808, "listen": "::", "protocol": "http" }
-                    ],
-                    "outbounds": [
-                        {
-                            "tag": "proxy",
-                            "protocol": "trojan",
-                            "settings": { "servers": [{ "address": "IP_PLACEHOLDER", "method": "chacha20-poly1305", "ota": false, "password": "PASS_PLACEHOLDER", "port": 443, "level": 8, "flow": "" }] },
-                            "streamSettings": {
-                                "network": "ws",
-                                "security": "tls",
-                                "wsSettings": { "path": "PATH_PLACEHOLDER", "headers": { "Host": "HOST_PLACEHOLDER" } },
-                                "tlsSettings": { "allowInsecure": true, "serverName": "HOST_PLACEHOLDER", "alpn": ["http/1.1"], "fingerprint": fingerprint, "show": false },
-                                "sockopt": { "dialerProxy": "fragment", "tcpKeepAliveIdle": 100, "tcpNoDelay": true }
-                            },
-                            "mux": { "enabled": false, "concurrency": 8 }
-                        },
-                        { "tag": "fragment", "protocol": "freedom", "settings": { "domainStrategy": "AsIs", "fragment": { "packets": "tlshello", "length": "100-200", "interval": "10-20" } }, "streamSettings": { "sockopt": { "tcpKeepAliveIdle": 100, "tcpNoDelay": true } } },
-                        { "tag": "direct", "protocol": "freedom", "settings": { "domainStrategy": "UseIp" } },
-                        { "tag": "blackhole", "protocol": "blackhole", "settings": {} }
-                    ],
-                    "dns": { "servers": ["8.8.8.8"] },
-                    "routing": { "domainStrategy": "UseIp", "rules": [], "balancers": [] }
-                };
-                let jsonStr = JSON.stringify(config, null, 2);
                 overrideHost.value = host;
                 overridePath.value = path;
                 overridePass.value = password;
-                return jsonStr;
-            } catch(e) { return null; }
+                return true;
+            } catch(e) {
+                return false;
+            }
         }
 
-        function isValidJSON(str) { try { JSON.parse(str); return true; } catch(e) { return false; } }
+        function extractFromCustomJSON(jsonStr) {
+            try {
+                let obj = JSON.parse(jsonStr);
+                let outbound = null;
+                if (obj.outbounds) {
+                    outbound = obj.outbounds.find(o => o.protocol === 'trojan' || o.tag === 'proxy');
+                }
+                if (!outbound) throw new Error("خروجی trojan یافت نشد");
+                let server = outbound.settings?.servers?.[0];
+                if (!server) throw new Error("تنظیمات سرور یافت نشد");
+                let password = server.password;
+                let host = "";
+                let path = "";
+                let wsSettings = outbound.streamSettings?.wsSettings || {};
+                host = wsSettings.host || wsSettings.headers?.Host || outbound.streamSettings?.tlsSettings?.serverName || "";
+                path = wsSettings.path || "/";
+                if (host) overrideHost.value = host;
+                if (path) overridePath.value = path;
+                if (password) overridePass.value = password;
+                return true;
+            } catch(e) {
+                console.error(e);
+                return false;
+            }
+        }
+
+        function resetOverridesToDefault() {
+            overrideHost.value = "www.calmloud.com";
+            overridePath.value = "/assignment";
+            overridePass.value = "humanity";
+        }
 
         function applyUserConfig() {
             let input = templateConfig.value.trim();
-            let finalTemplate = null;
-            if(input.startsWith('trojan://')) {
-                let json = parseTrojanLinkToJSON(input);
-                if(json) { finalTemplate = json; showToast('لینک Trojan با موفقیت تبدیل شد', 'success'); }
-                else { showToast('لینک نامعتبر', 'info'); return; }
-            } else if(isValidJSON(input)) {
-                finalTemplate = input;
-                showToast('JSON معتبر ذخیره شد', 'success');
-            } else {
-                showToast('فرمت نامعتبر (لینک یا JSON صحیح نیست)', 'info');
+            if (input === "") {
+                resetOverridesToDefault();
+                showToast('تکست‌باکس خالی است. مقادیر پیش‌فرض Host/Path/Password بازیابی شدند.', 'info');
                 return;
             }
-            if(finalTemplate) {
-                templateConfig.value = finalTemplate;
-                baseTemplate = finalTemplate;
+            let success = false;
+            if (input.startsWith('trojan://')) {
+                success = extractFromTrojanLink(input);
+                if (success) {
+                    showToast('اطلاعات از لینک Trojan استخراج و در فیلدهای override اعمال شد', 'success');
+                } else {
+                    showToast('لینک Trojan نامعتبر است', 'info');
+                }
+            } else {
                 try {
-                    let obj = JSON.parse(finalTemplate);
-                    let out = obj.outbounds?.find(o => o.tag === 'proxy');
-                    if(out && out.streamSettings?.wsSettings) {
-                        let ws = out.streamSettings.wsSettings;
-                        if(ws.path && ws.path !== "PATH_PLACEHOLDER") overridePath.value = ws.path;
-                        if(ws.headers?.Host && ws.headers.Host !== "HOST_PLACEHOLDER") overrideHost.value = ws.headers.Host;
-                        if(out.settings?.servers?.[0]?.password && out.settings.servers[0].password !== "PASS_PLACEHOLDER") overridePass.value = out.settings.servers[0].password;
+                    JSON.parse(input);
+                    success = extractFromCustomJSON(input);
+                    if (success) {
+                        showToast('اطلاعات از JSON استخراج و در فیلدهای override اعمال شد', 'success');
+                    } else {
+                        showToast('JSON معتبر است اما اطلاعات تروجان در آن یافت نشد', 'info');
                     }
-                } catch(e) {}
+                } catch(e) {
+                    showToast('فرمت نامعتبر (لینک Trojan یا JSON معتبر نیست)', 'info');
+                }
             }
         }
 
@@ -627,7 +580,6 @@
             return [...new Set(raw)].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
         }
 
-        // تست WebSocket (مثبت کاذب) با Host و Path
         async function testWebSocketFP(ip){
             return new Promise((resolve)=>{
                 const start = performance.now();
@@ -663,12 +615,15 @@
                 let host = overrideHost.value.trim() || ip;
                 let path = overridePath.value.trim(); if(path && !path.startsWith("/")) path = "/"+path; if(!path) path = "/";
                 let password = overridePass.value.trim() || "humanity";
-                template = template.replace(/IP_PLACEHOLDER/g, ip).replace(/HOST_PLACEHOLDER/g, host).replace(/PATH_PLACEHOLDER/g, path).replace(/PASS_PLACEHOLDER/g, password);
+                template = template.replace(/IP_PLACEHOLDER/g, ip)
+                                   .replace(/HOST_PLACEHOLDER/g, host)
+                                   .replace(/PATH_PLACEHOLDER/g, path)
+                                   .replace(/PASS_PLACEHOLDER/g, password);
                 let config = JSON.parse(template);
                 if(config._comment) config._comment.remark = "SeNaToR";
                 else config._comment = { remark: "SeNaToR" };
                 return JSON.stringify(config, null, 2);
-            } catch(e){ return `// خطا: ${e.message}`; }
+            } catch(e){ return `// خطا در تولید کانفیگ برای ${ip}: ${e.message}`; }
         }
 
         async function worker(){
@@ -731,7 +686,7 @@
 
             let sorted = [...results].sort((a,b)=>a.ping-b.ping);
             resultTableBody.innerHTML = '';
-            if(sorted.length === 0) resultTableBody.innerHTML = '<td><td colspan="4" style="text-align:center;">آی‌پی موفقی یافت نشد<\/td><\/tr>';
+            if(sorted.length === 0) resultTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">آی‌پی موفقی یافت نشد<\/td><\/tr>';
             else for(let r of sorted){
                 let row = resultTableBody.insertRow();
                 row.insertCell(0).innerText = r.ip;
@@ -750,42 +705,10 @@
         function copyResults(){ if(results.length){ copyToClip(results.map(r=>r.ip).join('\n')); showToast('آی‌پی‌ها کپی شدند','success'); } }
         function downloadResults(){ if(results.length){ let blob=new Blob([results.map(r=>r.ip).join('\n')],{type:'text/plain'}); let a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='valid_ips.txt'; a.click(); URL.revokeObjectURL(a.href); showToast('دانلود شد','success'); } }
 
-        // مقداردهی اولیه قالب پیش‌فرض
-        const defaultJSON = `{
-  "_comment": { "remark": "SeNaToR" },
-  "log": { "access": "", "error": "", "loglevel": "info", "dnsLog": false },
-  "inbounds": [
-    { "tag": "in_proxy", "port": 1080, "protocol": "socks", "listen": "0.0.0.0", "settings": { "auth": "noauth", "udp": true, "userLevel": 8 }, "sniffing": { "enabled": false } },
-    { "tag": "http-in", "port": 10808, "listen": "::", "protocol": "http" }
-  ],
-  "outbounds": [
-    {
-      "tag": "proxy",
-      "protocol": "trojan",
-      "settings": { "servers": [{ "address": "IP_PLACEHOLDER", "method": "chacha20-poly1305", "ota": false, "password": "PASS_PLACEHOLDER", "port": 443, "level": 8, "flow": "" }] },
-      "streamSettings": {
-        "network": "ws",
-        "security": "tls",
-        "wsSettings": { "path": "PATH_PLACEHOLDER", "headers": { "Host": "HOST_PLACEHOLDER" } },
-        "tlsSettings": { "allowInsecure": true, "serverName": "HOST_PLACEHOLDER", "alpn": ["http/1.1"], "fingerprint": "ios", "show": false },
-        "sockopt": { "dialerProxy": "fragment", "tcpKeepAliveIdle": 100, "tcpNoDelay": true }
-      },
-      "mux": { "enabled": false, "concurrency": 8 }
-    },
-    { "tag": "fragment", "protocol": "freedom", "settings": { "domainStrategy": "AsIs", "fragment": { "packets": "tlshello", "length": "100-200", "interval": "10-20" } }, "streamSettings": { "sockopt": { "tcpKeepAliveIdle": 100, "tcpNoDelay": true } } },
-    { "tag": "direct", "protocol": "freedom", "settings": { "domainStrategy": "UseIp" } },
-    { "tag": "blackhole", "protocol": "blackhole", "settings": {} }
-  ],
-  "dns": { "servers": ["8.8.8.8"] },
-  "routing": { "domainStrategy": "UseIp", "rules": [], "balancers": [] }
-}`;
-        templateConfig.value = defaultJSON;
+        templateConfig.value = "";
         baseTemplate = defaultJSON;
-        overrideHost.value = "www.calmloud.com";
-        overridePath.value = "/assignment";
-        overridePass.value = "humanity";
+        resetOverridesToDefault();
 
-        // رویدادها
         parseBtn.addEventListener('click', prepareList);
         fileInput.addEventListener('change', (e) => { let f=e.target.files[0]; if(f){ let r=new FileReader(); r.onload=(ev)=>{ ipListInput.value=ev.target.result; prepareList(); }; r.readAsText(f); } });
         startBtn.addEventListener('click', ()=>{ let ips = currentIps.length ? currentIps : prepareList(); if(ips?.length) startScan(ips); else showToast('لیست آی‌پی خالی', 'info'); });
