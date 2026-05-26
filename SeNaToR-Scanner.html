@@ -322,9 +322,9 @@
                 <button id="applyConfigBtn" class="btn btn-primary">✅ اعمال کانفیگ کاربر</button>
             </div>
             <div class="flex-row">
-                <div class="input-group" style="flex:1"><label>🌐 Host (SNI)</label><input type="text" id="overrideHost" value="www.calmloud.com"></div>
-                <div class="input-group" style="flex:1"><label>🛤️ Path (WebSocket)</label><input type="text" id="overridePath" value="/assignment"></div>
-                <div class="input-group" style="flex:1"><label>🔑 رمز عبور Trojan</label><input type="text" id="overridePass" value="humanity"></div>
+                <div class="input-group" style="flex:1"><label>🌐 Host (SNI)</label><input type="text" id="overrideHost" value="wallweb.sqzttxft.workers.dev"></div>
+                <div class="input-group" style="flex:1"><label>🛤️ Path (WebSocket)</label><input type="text" id="overridePath" value="/?ed=2048"></div>
+                <div class="input-group" style="flex:1"><label>🔑 رمز عبور Trojan</label><input type="text" id="overridePass" value="wallweb"></div>
             </div>
         </div>
 
@@ -394,33 +394,126 @@
         let scanning = false, stopRequested = false;
         let ipQueue = [], activeWorkers = 0;
         
+        // قالب پیش‌فرض جدید (بر اساس کانفیگ wallweb با placeholders)
         const defaultJSON = `{
-  "_comment": { "remark": "SeNaToR" },
-  "log": { "access": "", "error": "", "loglevel": "info", "dnsLog": false },
+  "_comment": {
+    "remark": "SeNaToR"
+  },
+  "log": {
+    "access": "",
+    "error": "",
+    "loglevel": "info",
+    "dnsLog": false
+  },
   "inbounds": [
-    { "tag": "in_proxy", "port": 1080, "protocol": "socks", "listen": "0.0.0.0", "settings": { "auth": "noauth", "udp": true, "userLevel": 8 }, "sniffing": { "enabled": false } },
-    { "tag": "http-in", "port": 10808, "listen": "::", "protocol": "http" }
+    {
+      "tag": "in_proxy",
+      "port": 1080,
+      "protocol": "socks",
+      "listen": "0.0.0.0",
+      "settings": {
+        "auth": "noauth",
+        "udp": true,
+        "userLevel": 8
+      },
+      "sniffing": {
+        "enabled": false
+      }
+    },
+    {
+      "tag": "http-in",
+      "port": 10808,
+      "listen": "::",
+      "protocol": "http"
+    }
   ],
   "outbounds": [
     {
       "tag": "proxy",
       "protocol": "trojan",
-      "settings": { "servers": [{ "address": "IP_PLACEHOLDER", "method": "chacha20-poly1305", "ota": false, "password": "PASS_PLACEHOLDER", "port": 443, "level": 8, "flow": "" }] },
+      "settings": {
+        "servers": [
+          {
+            "address": "188.114.96.3",
+            "method": "chacha20-poly1305",
+            "ota": false,
+            "password": "SeNaToR",
+            "port": 443,
+            "level": 8,
+            "flow": ""
+          }
+        ]
+      },
       "streamSettings": {
         "network": "ws",
         "security": "tls",
-        "wsSettings": { "path": "PATH_PLACEHOLDER", "headers": { "Host": "HOST_PLACEHOLDER" } },
-        "tlsSettings": { "allowInsecure": true, "serverName": "HOST_PLACEHOLDER", "alpn": ["http/1.1"], "fingerprint": "ios", "show": false },
-        "sockopt": { "dialerProxy": "fragment", "tcpKeepAliveIdle": 100, "tcpNoDelay": true }
+        "wsSettings": {
+          "path": "/?ed=2048",
+          "headers": {
+            "Host": "senator.jalalasiaiy4.workers.dev"
+          }
+        },
+        "tlsSettings": {
+          "allowInsecure": true,
+          "serverName": "senator.jalalasiaiy4.workers.dev",
+          "alpn": [
+            "http/1.1"
+          ],
+          "fingerprint": "ios",
+          "show": false
+        },
+        "sockopt": {
+          "dialerProxy": "fragment",
+          "tcpKeepAliveIdle": 100,
+          "tcpNoDelay": true
+        }
       },
-      "mux": { "enabled": false, "concurrency": 8 }
+      "mux": {
+        "enabled": false,
+        "concurrency": 8
+      }
     },
-    { "tag": "fragment", "protocol": "freedom", "settings": { "domainStrategy": "AsIs", "fragment": { "packets": "tlshello", "length": "100-200", "interval": "10-20" } }, "streamSettings": { "sockopt": { "tcpKeepAliveIdle": 100, "tcpNoDelay": true } } },
-    { "tag": "direct", "protocol": "freedom", "settings": { "domainStrategy": "UseIp" } },
-    { "tag": "blackhole", "protocol": "blackhole", "settings": {} }
+    {
+      "tag": "fragment",
+      "protocol": "freedom",
+      "settings": {
+        "domainStrategy": "AsIs",
+        "fragment": {
+          "packets": "tlshello",
+          "length": "100-200",
+          "interval": "10-20"
+        }
+      },
+      "streamSettings": {
+        "sockopt": {
+          "tcpKeepAliveIdle": 100,
+          "tcpNoDelay": true
+        }
+      }
+    },
+    {
+      "tag": "direct",
+      "protocol": "freedom",
+      "settings": {
+        "domainStrategy": "UseIp"
+      }
+    },
+    {
+      "tag": "blackhole",
+      "protocol": "blackhole",
+      "settings": {}
+    }
   ],
-  "dns": { "servers": ["8.8.8.8"] },
-  "routing": { "domainStrategy": "UseIp", "rules": [], "balancers": [] }
+  "dns": {
+    "servers": [
+      "8.8.8.8"
+    ]
+  },
+  "routing": {
+    "domainStrategy": "UseIp",
+    "rules": [],
+    "balancers": []
+  }
 }`;
         
         let baseTemplate = defaultJSON;
@@ -510,9 +603,9 @@
         }
 
         function resetOverridesToDefault() {
-            overrideHost.value = "www.calmloud.com";
-            overridePath.value = "/assignment";
-            overridePass.value = "humanity";
+            overrideHost.value = "senator.jalalasiaiy4.workers.dev";
+            overridePath.value = "/?ed=2048";
+            overridePass.value = "SeNaToR";
         }
 
         function applyUserConfig() {
@@ -614,7 +707,7 @@
                 let template = baseTemplate;
                 let host = overrideHost.value.trim() || ip;
                 let path = overridePath.value.trim(); if(path && !path.startsWith("/")) path = "/"+path; if(!path) path = "/";
-                let password = overridePass.value.trim() || "humanity";
+                let password = overridePass.value.trim() || "wallweb";
                 template = template.replace(/IP_PLACEHOLDER/g, ip)
                                    .replace(/HOST_PLACEHOLDER/g, host)
                                    .replace(/PATH_PLACEHOLDER/g, path)
